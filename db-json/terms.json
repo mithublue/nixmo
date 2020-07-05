@@ -1,0 +1,32 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "type": "string#nullable"
+    },
+    {
+      "name": "slug",
+      "type": "string#nullable"
+    },
+    {
+      "name": "taxonomy",
+      "type": "string#nullable"
+    },
+    {
+      "name": "post_type",
+      "type": "string#nullable"
+    }
+  ],
+  "foreign_keys": [],
+  "relationships": [],
+  "validations": [
+    {
+      "field": "name",
+      "rules": "required"
+    },
+    {
+      "field": "slug",
+      "rules": "required"
+    }
+  ]
+}

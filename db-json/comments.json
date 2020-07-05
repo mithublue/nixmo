@@ -1,0 +1,64 @@
+{
+  "fields": [
+    {
+      "name": "content",
+      "type": "text#nullable"
+    },
+    {
+      "name": "post_id",
+      "type": "integer#unsigned"
+    },
+    {
+      "name": "parent_id",
+      "type": "integer#unsigned#nullable"
+    },
+    {
+      "name": "user_id",
+      "type": "integer#unsigned"
+    },
+    {
+      "name": "user_email",
+      "type": "string#nullable"
+    },
+    {
+      "name": "is_approved",
+      "type": "tinyint#nullable"
+    },
+    {
+      "name": "agent",
+      "type": "string"
+    }
+  ],
+  "foreign_keys": [
+    {
+      "column": "user_id",
+      "references": "id",
+      "on": "users",
+      "onDelete": "cascade"
+    },
+    {
+      "column": "post_id",
+      "references": "id",
+      "on": "posts",
+      "onDelete": "cascade"
+    }
+  ],
+  "relationships": [
+    {
+      "name": "user",
+      "type": "belongsTo",
+      "class": "App\\User"
+    },
+    {
+      "name": "post",
+      "type": "belongsTo",
+      "class": "App\\Post"
+    }
+  ],
+  "validations": [
+    {
+      "field": "content",
+      "rules": "required"
+    }
+  ]
+}

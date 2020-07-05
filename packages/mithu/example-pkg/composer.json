@@ -1,0 +1,22 @@
+{
+    "name": "mithu/example-pkg",
+    "authors": [
+        {
+            "name": "Mithu A Quayium",
+            "email": "cemithu06@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "mithu\\ExamplePackage\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "mithu\\ExamplePackage\\ExamplePackageServiceProvider"
+            ]
+        }
+    }
+}
