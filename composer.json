@@ -16,6 +16,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "mithublue/hooks": "dev-master",
         "plank/laravel-metable": "^2.1",
         "silber/bouncer": "v1.0.0-rc.8"
     },
@@ -23,6 +24,7 @@
         "appzcoder/crud-generator": "^3.2",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
+        "jeroen-g/laravel-packager": "^2.5",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
@@ -66,5 +68,9 @@
             "@php artisan key:generate --ansi"
         ]
     },
-    "repositories": {}
+    "repositories": {
+        "mithublue/hooks": {
+            "type": "path",
+            "url": "D:\\xampp64\\htdocs\\nixmo\\packages/mithublue/Hooks"
+        }}
 }

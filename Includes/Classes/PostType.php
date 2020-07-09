@@ -72,78 +72,79 @@ class PostType {
          ], $args );
 
          $this->post_types[ $args['post_type'] ] = $args;
-
          $capabilities = $args['capability'];
          $route_name = [
-           'index' => $args['slug'].'.index',
-           'create' => $args['slug'].'.create',
-           'edit' => $args['slug'].'.edit',
-           'store' => $args['slug'].'.store',
-           'update' => $args['slug'].'.update',
-           'delete' => $args['slug'].'.delete',
+           'browse' => 'posts.'.$args['post_type'].'.browse',
+           'read' => 'posts.'.$args['post_type'].'.read',
+           'create' => 'posts.'.$args['post_type'].'.create',
+           'edit' => 'posts.'.$args['post_type'].'.edit',
+           'store' => 'posts.'.$args['post_type'].'.store',
+           'update' => 'posts.'.$args['post_type'].'.update',
+           'delete' => 'posts.'.$args['post_type'].'.delete',
          ];
 
          //add menu and submenu page
-        AdminMenu::instance()->add_menu_page( $args['label']['plural'], $capabilities['browse'], 'admin/'.$args['slug'], function () {
+        AdminMenu::instance()->add_menu_page( $args['label']['plural'], $capabilities['browse'], 'admin/'.$args['slug'].'/'.$args['post_type'], function () {
             return 'Admin\\PostsController@index';
-        }, $route_name['index'] );
-        AdminMenu::instance()->add_submenu_page( $route_name['index'], 'Create '.$args['label']['singular'], $capabilities['browse'], 'admin/'.$args['slug'].'/create', function () {
+        }, $route_name['browse'] );
+        AdminMenu::instance()->add_submenu_page( $route_name['browse'], 'Create '.$args['label']['singular'], $capabilities['browse'], 'admin/'.$args['slug'].'/'.$args['post_type'].'/create', function () {
             return 'Admin\\PostsController@create';
         }, $route_name['create']);
 
          //register routes
+        $slug_part = 'admin/posts/'.$args['post_type'];
         $routes = [
             [
                 'method' => 'post',
-                'slug' => 'admin/posts',
+                'slug' => $slug_part,
                 'callback' => function(){
                     return 'Admin\\PostsController@store';
                 },
-                'name' => 'posts.store',
+                'name' => $route_name['store'],
                 'is_admin' => true,
                 'middleware' => '',
                 'permission' => ['create', \App\Post::class]
             ],
             [
                 'method' => 'get',
-                'slug' => 'admin/posts/{id}',
+                'slug' => $slug_part.'/{id}',
                 'callback' => function(){
-                    return 'Admin\\PostsController@edit';
+                    return 'Admin\\PostsController@show';
                 },
-                'name' => 'posts.read',
+                'name' => $route_name['read'],
                 'is_admin' => true,
                 'middleware' => '',
                 'permission' => ['read', \App\Post::class]
             ],
             [
                 'method' => 'get',
-                'slug' => 'admin/posts/edit/{id}',
+                'slug' => $slug_part.'/edit/{id}',
                 'callback' => function(){
                     return 'Admin\\PostsController@edit';
                 },
-                'name' => 'posts.edit',
+                'name' => $route_name['edit'],
                 'is_admin' => true,
                 'middleware' => '',
                 'permission' => ['edit', \App\Post::class]
             ],
             [
                 'method' => 'patch',
-                'slug' => 'admin/posts/edit/{id}',
+                'slug' => $slug_part.'/edit/{id}',
                 'callback' => function(){
                     return 'Admin\\PostsController@update';
                 },
-                'name' => 'posts.update',
+                'name' => $route_name['update'],
                 'is_admin' => true,
                 'middleware' => '',
                 'permission' => ['edit', \App\Post::class]
             ],
             [
                 'method' => 'delete',
-                'slug' => 'admin/posts/delete/{id}',
+                'slug' => $slug_part.'/delete/{id}',
                 'callback' => function(){
                     return 'Admin\\PostsController@destroy';
                 },
-                'name' => 'posts.destroy',
+                'name' => $route_name['delete'],
                 'is_admin' => true,
                 'middleware' => '',
                 'permission' => ['delete', \App\Post::class]

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d79f600837652103afc47ba3630f569e",
+    "content-hash": "e2a733dfb4c00c809dcc5c8f158520de",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -1189,6 +1189,64 @@
                 "storage"
             ],
             "time": "2020-05-18T15:13:39+00:00"
+        },
+        {
+            "name": "mithublue/hooks",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "D:/xampp64/htdocs/nixmo/packages/mithublue/Hooks",
+                "reference": "35399a930ec80d7640686da60178dc955c594f26"
+            },
+            "require": {
+                "illuminate/support": "~5|~6|~7"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.1",
+                "orchestra/testbench": "~3|~4",
+                "phpunit/phpunit": "^8.0",
+                "sempro/phpunit-pretty-print": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "mithublue\\Hooks\\HooksServiceProvider"
+                    ],
+                    "aliases": {
+                        "Hooks": "mithublue\\Hooks\\Facades\\Hooks"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mithublue\\Hooks\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "mithublue\\Hooks\\Tests\\": "tests"
+                }
+            },
+            "license": [
+                "license"
+            ],
+            "authors": [
+                {
+                    "name": "Mithu A Quayium",
+                    "email": "cemithu06@gmail.com",
+                    "homepage": "https://cybercraftit.com/"
+                }
+            ],
+            "description": ":package_description",
+            "homepage": "https://github.com/mithublue/hooks",
+            "keywords": [
+                "Hooks",
+                "Laravel"
+            ],
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "monolog/monolog",
@@ -4471,6 +4529,67 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
+            "name": "jeroen-g/laravel-packager",
+            "version": "V2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jeroen-G/laravel-packager.git",
+                "reference": "b27978973ac130c48025f904455d7f6f014449a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jeroen-G/laravel-packager/zipball/b27978973ac130c48025f904455d7f6f014449a6",
+                "reference": "b27978973ac130c48025f904455d7f6f014449a6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-zip": "*",
+                "guzzlehttp/guzzle": "~6",
+                "illuminate/support": "^5.0|^6.0|^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=3.8",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "suggest": {
+                "sensiolabs/security-checker": "Required to use the security check command"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JeroenG\\Packager\\PackagerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JeroenG\\Packager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "EUPL-1.1"
+            ],
+            "authors": [
+                {
+                    "name": "JeroenG",
+                    "email": "jeroengjeroeng@gmail.com",
+                    "homepage": "https://github.com/Jeroen-G"
+                }
+            ],
+            "description": "A cli tool for creating Laravel packages.",
+            "homepage": "https://github.com/Jeroen-G/laravel-packager",
+            "keywords": [
+                "Skeleton",
+                "laravel",
+                "package",
+                "packager"
+            ],
+            "time": "2020-03-22T13:28:03+00:00"
+        },
+        {
             "name": "laravelcollective/html",
             "version": "v6.1.2",
             "source": {
@@ -6148,11 +6267,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mithublue/hooks": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

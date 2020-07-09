@@ -1,0 +1,43 @@
+{
+    "name": "mithublue/hooks",
+    "description": "A WP styled action and filter hook system for laravel, all functions are same as wp",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Mithu A Quayium",
+            "email": "cemithu06@gmail.com",
+            "homepage": "https://cybercraftit.com/"
+        }
+    ],
+    "homepage": "https://github.com/mithublue/hooks",
+    "keywords": ["Laravel", "Hooks"],
+    "require": {
+        "illuminate/support": "~5|~6|~7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3|~4",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "mithublue\\Hooks\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "mithublue\\Hooks\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "mithublue\\Hooks\\HooksServiceProvider"
+            ],
+            "aliases": {
+                "Hooks": "mithublue\\Hooks\\Facades\\Hooks"
+            }
+        }
+    }
+}

@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+    public function __construct(Request $request)
+    {
+        view()->share('post_type', $request->segment(3));
+    }
+
     /**
      * Display a listing of the resource.
      *

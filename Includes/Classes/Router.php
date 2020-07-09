@@ -87,6 +87,7 @@ class Router {
 
         //build general routes
         add_action( 'public_web_routes-web.php', function () {
+            //dd($this->routes);
             foreach ( $this->routes as $route_name => $route ) {
                 if( $route['is_admin'] ) continue;
                 //if( !can( $route['capability']  ) ) continue;
@@ -94,6 +95,37 @@ class Router {
                 Router::$method( $route['slug'], $route['callback']() )->name( $route_name );
             }
         },10, 1 );
+    }
+
+    /**
+     * @param null $action
+     * @param null $id
+     * @param null $module
+     * @param null $post_type
+     * @return string
+     */
+    public function get_route( $action = null, $id = null, $module = null, $post_type = null ) {
+        $route_item = null;
+        if( $module && $post_type ) {
+            $action = !$action ? 'browse' : $action;
+            switch ( $module ) {
+                case 'post_type':
+                    if( isset( $this->routes['posts.'.$post_type.'.'.$action ] ) )
+                        $route_item = $this->routes['posts.'.$post_type.'.'.$action ];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $args = [];
+
+        if( $id ) {
+            $args['id'] = $id;
+        }
+
+        $route = route( $route_item['name'], $args);
+        return $route;
     }
 }
 

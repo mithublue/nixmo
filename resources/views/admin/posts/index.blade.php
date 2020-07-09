@@ -10,11 +10,11 @@
                     <div class="card-header">Posts</div>
                     <div class="card-body">
                         @can( 'create', \App\Post::class)
-                        <a href="{{ url('/admin/posts/create') }}" class="btn btn-success btn-sm" title="Add New Post">
+                        <a href="{{ \App\Includes\Classes\Router()->get_route( 'create', null, 'post_type', $post_type ) }}" class="btn btn-success btn-sm" title="Add New Post">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
                         @endcan
-                        <form method="GET" action="{{ route('posts.store') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+                        <form method="GET" action="{{ \App\Includes\Classes\Router()->get_route('store', null, 'post_type', $post_type ) }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
                                 <span class="input-group-append">
@@ -41,13 +41,13 @@
                                         <td>{{ $item->title }}</td><td>{{ $item->content }}</td><td>{{ $item->post_type }}</td>
                                         <td>
                                             @can('read',$item)
-                                                <a href="{{ route('posts.read', $item->id) }}" title="View Post"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                                <a href="{{ \App\Includes\Classes\Router()->get_route( 'read', $item->id, 'post_type', $post_type ) }}" title="View Post"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             @endcan
                                             @can('edit',$item)
-                                                <a href="{{ route('posts.edit', $item->id ) }}" title="Edit Post"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                <a href="{{ \App\Includes\Classes\Router()->get_route( 'edit', $item->id, 'post_type', $post_type ) }}" title="Edit Post"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                             @endcan
                                             @can('delete',$item)
-                                                <form method="POST" action="{{ route('posts.destroy', $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                <form method="POST" action="{{ \App\Includes\Classes\Router()->get_route( 'delete', $item->id, 'post_type', $post_type ) }}" accept-charset="UTF-8" style="display:inline">
                                                     {{ method_field('DELETE') }}
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-danger btn-sm" title="Delete Post" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
