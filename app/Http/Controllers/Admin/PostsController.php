@@ -3,16 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
+use function App\Includes\Classes\Router;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+    protected $common = [];
+
+    /**
+     * PostsController constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
-        view()->share('post_type', $request->segment(3));
+        $this->common = [
+            'post_type' =>  $request->segment(3),
+            'model' => Post::where('post_type', $request->segment(3)),
+        ];
+
+        view()->share( $this->common );
     }
 
     /**
@@ -26,7 +37,7 @@ class PostsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $posts = Post::where('title', 'LIKE', "%$keyword%")
+            $posts = $this->common['model']->where('title', 'LIKE', "%$keyword%")
                 ->orWhere('content', 'LIKE', "%$keyword%")
                 ->orWhere('post_type', 'LIKE', "%$keyword%")
                 ->orWhere('user_id', 'LIKE', "%$keyword%")
@@ -37,7 +48,7 @@ class PostsController extends Controller
                 ->orWhere('parent_id', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $posts = Post::latest()->paginate($perPage);
+            $posts = $this->common['model']->latest()->paginate($perPage);
         }
 
         return view('admin.posts.index', compact('posts'));
@@ -66,10 +77,10 @@ class PostsController extends Controller
             'title' => 'required'
         ], $request, __CLASS__ ) );
         $requestData = $request->all();
-        
-        Post::create($requestData);
 
-        return redirect('admin/posts')->with('flash_message', 'Post added!');
+        $this->common['model']->create($requestData);
+
+        return redirect( Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with('flash_message', 'Post added!');
     }
 
     /**
@@ -81,7 +92,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
+        $post = $this->common['model']->findOrFail($id);
 
         return view('admin.posts.show', compact('post'));
     }
@@ -95,7 +106,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
+        $post = $this->common['model']->findOrFail($id);
 
         return view('admin.posts.edit', compact('post'));
     }
@@ -115,10 +126,10 @@ class PostsController extends Controller
         ], $request, __CLASS__ ) );
         $requestData = $request->all();
         
-        $post = Post::findOrFail($id);
+        $post = $this->common['model']->findOrFail($id);
         $post->update($requestData);
 
-        return redirect('admin/posts')->with('flash_message', 'Post updated!');
+        return redirect( Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with('flash_message', 'Post updated!');
     }
 
     /**
@@ -130,8 +141,7 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        Post::destroy($id);
-
-        return redirect('admin/posts')->with('flash_message', 'Post deleted!');
+        $this->common['model']->where( 'id', $id )->delete();
+        return redirect(Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with('flash_message', 'Post deleted!');
     }
 }
