@@ -1,4 +1,5 @@
 <?php
+//post
 $args = [
     'post_type' => 'post',
     'post_status' => 'publish', //private, draft, trash
@@ -13,6 +14,26 @@ $args = [
     'label' => [
         'singular' => ( 'app.Post'),
         'plural' => ( 'app.Posts')
+    ],
+    'show_in_menu' => true
+];
+\App\Includes\Classes\PostType::instance()->register_post_type( $args );
+
+//page
+$args = [
+    'post_type' => 'page',
+    'post_status' => 'publish', //private, draft, trash
+    'capability' => [
+        'browse' => ['browse', \App\Post::class],
+        'read' => ['read',\App\Post::class],
+        'create' => ['create',\App\Post::class],
+        'edit' => ['edit',\App\Post::class],
+        'delete' => ['delete',\App\Post::class],
+    ],
+    'slug' => 'pages',
+    'label' => [
+        'singular' => ( 'app.Page'),
+        'plural' => ( 'app.Pages')
     ],
     'show_in_menu' => true
 ];

@@ -71,6 +71,9 @@ class PostType {
              'show_in_menu' => true
          ], $args );
 
+         //override for noe
+        $args['slug'] = 'posts';
+
          $this->post_types[ $args['post_type'] ] = $args;
          $capabilities = $args['capability'];
          $route_name = [
@@ -151,6 +154,15 @@ class PostType {
             ]
         ];
         Router::instance()->register_routes( $routes );
+    }
+
+    /**
+     * @param $model
+     * @param string $post_type
+     * @return mixed
+     */
+    public function get_model( $model, $post_type = 'post' ) {
+        return $model::where( 'post_type', $post_type );
     }
 }
 
