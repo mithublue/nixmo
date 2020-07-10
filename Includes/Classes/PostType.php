@@ -73,18 +73,18 @@ class PostType {
 
          //override for noe
         $args['slug'] = 'posts';
-
-         $this->post_types[ $args['post_type'] ] = $args;
-         $capabilities = $args['capability'];
-         $route_name = [
-           'browse' => 'posts.'.$args['post_type'].'.browse',
-           'read' => 'posts.'.$args['post_type'].'.read',
-           'create' => 'posts.'.$args['post_type'].'.create',
-           'edit' => 'posts.'.$args['post_type'].'.edit',
-           'store' => 'posts.'.$args['post_type'].'.store',
-           'update' => 'posts.'.$args['post_type'].'.update',
-           'delete' => 'posts.'.$args['post_type'].'.delete',
-         ];
+        $capabilities = $args['capability'];
+        $route_name = [
+            'browse' => 'posts.'.$args['post_type'].'.browse',
+            'read' => 'posts.'.$args['post_type'].'.read',
+            'create' => 'posts.'.$args['post_type'].'.create',
+            'edit' => 'posts.'.$args['post_type'].'.edit',
+            'store' => 'posts.'.$args['post_type'].'.store',
+            'update' => 'posts.'.$args['post_type'].'.update',
+            'delete' => 'posts.'.$args['post_type'].'.delete',
+        ];
+        $args['route_names'] = $route_name;
+        $this->post_types[ $args['post_type'] ] = $args;
 
          //add menu and submenu page
         AdminMenu::instance()->add_menu_page( $args['label']['plural'], $capabilities['browse'], 'admin/'.$args['slug'].'/'.$args['post_type'], function () {
@@ -163,6 +163,37 @@ class PostType {
      */
     public function get_model( $model, $post_type = 'post' ) {
         return $model::where( 'post_type', $post_type );
+    }
+
+    /**
+     * Return post type based on the name
+     *
+     * @param $post_type
+     * @return bool|mixed
+     */
+    public function get_post_type( $post_type ) {
+        if( isset( $this->post_types[$post_type] ) ) {
+            return $this->post_types[$post_type];
+        }
+        return false;
+    }
+
+    /**
+     * Return specific route of post type
+     *
+     * @param null $post_type
+     * @param null $action
+     * @return bool
+     */
+    public function get_post_type_routes( $post_type = null, $action = null ) {
+        if( isset( $this->post_types[$post_type] ) ) {
+            if( $action && isset( $this->post_types[$post_type]['route_names'][$action] ) ) {
+                return $this->post_types[$post_type]['route_names'][$action];
+            } elseif ( !$action ) {
+                return $this->post_types[$post_type]['route_names'];
+            }
+        }
+        return false;
     }
 }
 

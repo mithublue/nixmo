@@ -76,7 +76,6 @@ class Router {
     public function build_routes() {
         //build admin routes
         add_action( 'admin_web_routes-web.php', function () {
-
             foreach ( $this->routes as $route_name => $route ) {
                 if( !$route['is_admin'] ) continue;
                 //if( !can( $route['capability']  ) ) continue;
