@@ -92,4 +92,18 @@ class Meta {
         }
     }
 
+    /**
+     * Update or set meta for an item
+     *
+     * @param string $module post_type, user, term, comment
+     * @param $item_id
+     * @param $meta_key
+     * @param $meta_value
+     */
+    public function update_meta( $module = 'post_type', $item, $meta_key, $meta_value ) {
+        if( !is_int( $item ) ) {
+            $item->setMeta( $meta_key, $meta_value );
+        }
+    }
+
 }

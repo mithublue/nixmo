@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Plank\Metable\Metable;
 
 class Term extends Model
 {
+    use Metable;
+
     /**
      * The database table used by the model.
      *
