@@ -18,7 +18,6 @@ $args = [
     'show_in_menu' => true
 ];
 \App\Includes\Classes\PostType::instance()->register_post_type( $args );
-
 //page
 $args = [
     'post_type' => 'page',

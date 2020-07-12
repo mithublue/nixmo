@@ -29,7 +29,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = ['title', 'content', 'post_type', 'user_id', 'excerpt', 'comment_status', 'password', 'slug', 'parent_id'];
-
+    
     public function user()
     {
         return $this->belongsTo('App\User');

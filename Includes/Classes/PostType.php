@@ -20,7 +20,7 @@ class PostType {
      * @static
      */
     private static $_instance = null;
-    public $post_types = [];
+    protected $post_types = [];
 
     /**
      * Instance
@@ -195,10 +195,23 @@ class PostType {
         }
         return false;
     }
+
+    /**
+     * Add post type support in editor page
+     *
+     * @param $post_type
+     * @param array $args
+     */
+    public function add_system_fields( $post_type, $args = [] ) {
+        $args = apply_filters( 'PostType-add_support', array_merge([], $args) );
+        $this->post_type_supports[$post_type] = $args;
+    }
+
+    public function get_support( $post_type ) {
+        return isset( $this->post_type_supports[$post_type] ) ? $this->post_type_supports[$post_type] : [];
+    }
 }
 
 function PostTytpe() {
     return PostType::instance();
 }
-
-PostTytpe();
