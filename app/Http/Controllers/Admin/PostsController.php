@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Includes\Classes\PostType;
 use function App\Includes\Classes\Router;
 use App\Post;
 use App\User;
@@ -20,7 +21,7 @@ class PostsController extends Controller
     {
         $this->common = [
             'post_type' =>  $request->segment(3),
-            'model' => Post::where('post_type', $request->segment(3)),
+            'model' => (new Post()),
         ];
 
         view()->share( $this->common );
@@ -73,12 +74,21 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->request->add(['post_type' => 'post','test' => 'Test']);
         $this->validate($request, apply_filters( 'ctrl_validate_store_request', [
             'title' => 'required'
         ], $request, __CLASS__ ) );
         $requestData = $request->all();
 
-        $this->common['model']->create($requestData);
+        $fillables = $this->common['model']->getFillable();
+        foreach ( $fillables as $k => $fillable ) {
+            if ( isset( $requestData[$fillable] ) ) {
+                $this->common['model']->{$fillable} = $requestData[$fillable];
+            }
+        }
+        $this->common['model']->save();
+
+        //$ret = $this->common['model']->create($requestData);
 
         return redirect( Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with('flash_message', 'Post added!');
     }
