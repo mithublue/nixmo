@@ -5,7 +5,7 @@
  */
 
 //example
-add_filter( 'model_form_fillable_fields', function ( $fillable, $class ) {
+add_filter( 'model-form_fillable_fields', function ( $fillable, $class ) {
     if( $class == \App\User::class ) {
         //code
     }

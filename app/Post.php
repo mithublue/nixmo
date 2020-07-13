@@ -28,8 +28,20 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'content', 'post_type', 'user_id', 'excerpt', 'comment_status', 'password', 'slug', 'parent_id'];
-    
+    protected $fillable = ['title', 'content', 'excerpt', 'comment_status', 'password', 'slug', 'parent_id'];
+
+    /**
+     * Attributes that should be filled up by system itself.
+     *
+     * @var array
+     */
+    protected $systemFillable = ['post_type', 'user_id'];
+
+    public function getSystemFillable() {
+        return $this->systemFillable;
+    }
+
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -49,9 +61,9 @@ class Post extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->fillable = apply_filters( 'model_form_fillable_fields', $this->fillable, __CLASS__ );
-        $this->hidden = apply_filters( 'model_form_hidden_fields', $this->hidden, __CLASS__ );
-        $this->casts = apply_filters( 'model_form_casts_fields', $this->casts, __CLASS__ );
+        $this->fillable = apply_filters( 'model-form_fillable_fields', $this->fillable, __CLASS__ );
+        $this->hidden = apply_filters( 'model-form_hidden_fields', $this->hidden, __CLASS__ );
+        $this->casts = apply_filters( 'model-form_casts_fields', $this->casts, __CLASS__ );
     }
     
 }

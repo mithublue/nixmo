@@ -8,6 +8,7 @@ use function App\Includes\Classes\Router;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -24,7 +25,7 @@ class PostsController extends Controller
             'model' => (new Post()),
         ];
 
-        view()->share( $this->common );
+        view()->share( ['common' => $this->common ] );
     }
 
     /**
@@ -49,7 +50,7 @@ class PostsController extends Controller
                 ->orWhere('parent_id', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $posts = $this->common['model']->latest()->paginate($perPage);
+            $posts = $this->common['model']->where( 'post_type', $this->common['post_type'] )->latest()->paginate($perPage);
         }
 
         return view('admin.posts.index', compact('posts'));
@@ -74,18 +75,29 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(['post_type' => 'post','test' => 'Test']);
         $this->validate($request, apply_filters( 'ctrl_validate_store_request', [
             'title' => 'required'
         ], $request, __CLASS__ ) );
         $requestData = $request->all();
 
         $fillables = $this->common['model']->getFillable();
+
         foreach ( $fillables as $k => $fillable ) {
             if ( isset( $requestData[$fillable] ) ) {
                 $this->common['model']->{$fillable} = $requestData[$fillable];
             }
         }
+
+        //set post type
+        if( !isset( $this->common['model']->post_type ) ) {
+            $this->common['model']->post_type = $this->common['post_type'];
+        }
+        //user_id
+        if( !isset( $this->common['model']->user_id ) ) {
+            $this->common['model']->user_id = Auth::user()->id;
+        }
+
+        do_action( 'ctrl-save_post', $this->common );
         $this->common['model']->save();
 
         //$ret = $this->common['model']->create($requestData);
