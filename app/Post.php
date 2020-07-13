@@ -35,10 +35,10 @@ class Post extends Model
      *
      * @var array
      */
-    protected $systemFillable = ['post_type', 'user_id'];
+    protected $metaFillable = ['post_type', 'user_id'];
 
-    public function getSystemFillable() {
-        return $this->systemFillable;
+    public function getMetaFillable() {
+        return $this->metaFillable;
     }
 
 
@@ -61,9 +61,10 @@ class Post extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->fillable = apply_filters( 'model-form_fillable_fields', $this->fillable, __CLASS__ );
-        $this->hidden = apply_filters( 'model-form_hidden_fields', $this->hidden, __CLASS__ );
-        $this->casts = apply_filters( 'model-form_casts_fields', $this->casts, __CLASS__ );
+        $this->fillable = apply_filters( 'model-fillable_fields', $this->fillable, __CLASS__ );
+        $this->metaFillable = apply_filters( 'model-metaFillable_fields', $this->metaFillable, __CLASS__ );
+        $this->hidden = apply_filters( 'model-hidden_fields', $this->hidden, __CLASS__ );
+        $this->casts = apply_filters( 'model-casts_fields', $this->casts, __CLASS__ );
     }
     
 }

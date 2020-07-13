@@ -63,7 +63,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        return view('admin.posts.create', [ 'post' => $this->common['model'] ] );
     }
 
     /**
@@ -75,34 +75,56 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        $flash_message = '';
+
         $this->validate($request, apply_filters( 'ctrl_validate_store_request', [
             'title' => 'required'
         ], $request, __CLASS__ ) );
         $requestData = $request->all();
-
         $fillables = $this->common['model']->getFillable();
+        $model = $this->common['model'];
 
         foreach ( $fillables as $k => $fillable ) {
             if ( isset( $requestData[$fillable] ) ) {
-                $this->common['model']->{$fillable} = $requestData[$fillable];
+                $model->{$fillable} = $requestData[$fillable];
             }
         }
 
         //set post type
-        if( !isset( $this->common['model']->post_type ) ) {
-            $this->common['model']->post_type = $this->common['post_type'];
+        if( !isset( $model->post_type ) ) {
+            $model->post_type = $this->common['post_type'];
         }
+
         //user_id
-        if( !isset( $this->common['model']->user_id ) ) {
-            $this->common['model']->user_id = Auth::user()->id;
+        if( !isset( $model->user_id ) ) {
+            $model->user_id = Auth::user()->id;
         }
 
-        do_action( 'ctrl-save_post', $this->common );
-        $this->common['model']->save();
+        do_action( 'ctrl-before_save_post', $this->common, $model );
 
-        //$ret = $this->common['model']->create($requestData);
+        $res = $model->save();
 
-        return redirect( Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with('flash_message', 'Post added!');
+        if( $res ) {
+
+            $flash_message = 'Post added!';
+
+            do_action( 'ctrl-save_post', $this->common, $model );
+
+            //save meta fields
+            $metaFillables = $model->getMetaFillable();
+
+            foreach ( $metaFillables as $k => $metaFillable ) {
+
+                if( isset( $requestData[$metaFillable] ) ) {
+                    $model->setMeta( $metaFillable, $requestData[$metaFillable] );
+                }
+            }
+
+        }
+
+        $flash_message = 'Post could not be added!';
+
+        return redirect( Router()->get_route( 'browse', null, 'post_type', $this->common['post_type']) )->with( 'flash_message', $flash_message );
     }
 
     /**

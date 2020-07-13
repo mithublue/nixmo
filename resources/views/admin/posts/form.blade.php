@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        {!! do_action('render_metabox', 'normal') !!}
+        {!! do_action('render_metaboxes', 'normal', $post ) !!}
     </div>
     <div class="col-sm-3">
         <div class="card mb-3">
@@ -69,6 +69,6 @@
                 </div>
             </div>
         </div>
-        {!! do_action('render_metabox', 'side') !!}
+        {!! do_action('render_metabox', 'side', $post) !!}
     </div>
 </div>
