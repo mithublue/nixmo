@@ -41,7 +41,7 @@ class Meta {
     }
 
     public function __construct() {
-        add_action( 'render_metaboxes', [ $this, 'render_metaboxes' ], 10, 1);
+        add_action( 'render_metaboxes', [ $this, 'render_metaboxes' ], 10, 2);
     }
 
 
@@ -75,7 +75,7 @@ class Meta {
      *
      * @param $context
      */
-    public function render_metaboxes( $context  ) {
+    public function render_metaboxes( $context, $item  ) {
 
         if( !isset( $this->metaboxes[$context] ) ) return;
         $metaboxes = $this->metaboxes[$context];
@@ -85,7 +85,7 @@ class Meta {
             <div id="<?php echo $id; ?>">
                 <div>
                     <h4><?php echo $metabox['title']; ?></h4>
-                    <?php $metabox['callback'](); ?>
+                    <?php $metabox['callback']( $item ); ?>
                 </div>
             </div>
         <?php

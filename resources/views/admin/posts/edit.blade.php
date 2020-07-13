@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Edit Post #{{ $post->id }}</div>
                     <div class="card-body">
-                        <a href="{{ route('posts.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ \App\Includes\Classes\Router()->get_route( 'browse', null, 'post_type', $common['post_type'] ) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,7 +21,7 @@
                             </ul>
                         @endif
 
-                        <form method="POST" action="{{ route('posts.update', $post->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ \App\Includes\Classes\Router()->get_route('update', $post->id, 'post_type', $common['post_type'] ) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             {{ csrf_field() }}
 
