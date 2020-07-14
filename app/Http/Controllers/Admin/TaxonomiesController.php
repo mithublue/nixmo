@@ -3,18 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Term;
 use Illuminate\Http\Request;
 
 class TaxonomiesController extends Controller
 {
+    protected $common = [];
+
+    /**
+     * PostsController constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->common = [
+            'taxonomy' =>  $request->segment(3),
+            'model' => (new Term()),
+        ];
+
+        view()->share( ['common' => $this->common ] );
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request )
     {
-        //
+        $keyword = $request->get('search');
+        $perPage = 25;
+
+        $terms = $this->common['model']->where( 'taxonomy', $this->common['taxonomy'] )->latest()->paginate($perPage);
+        return view('admin.terms.index', compact('terms' ) );
     }
 
     /**

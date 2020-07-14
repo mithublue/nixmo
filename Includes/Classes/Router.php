@@ -103,14 +103,18 @@ class Router {
      * @param null $post_type
      * @return string
      */
-    public function get_route( $action = null, $id = null, $module = null, $post_type = null ) {
+    public function get_route( $action = null, $id = null, $module = null, $mod_name = null ) {
         $route_item = null;
-        if( $module && $post_type ) {
+        if( $module && $mod_name ) {
             $action = !$action ? 'browse' : $action;
             switch ( $module ) {
                 case 'post_type':
-                    if( isset( $this->routes['posts.'.$post_type.'.'.$action ] ) )
-                        $route_item = $this->routes['posts.'.$post_type.'.'.$action ];
+                    if( isset( $this->routes['posts.'.$mod_name.'.'.$action ] ) )
+                        $route_item = $this->routes['posts.'.$mod_name.'.'.$action ];
+                    break;
+                case 'taxonomy':
+                    if( isset( $this->routes['taxonomy.'.$mod_name.'.'.$action ] ) )
+                        $route_item = $this->routes['taxonomy.'.$mod_name.'.'.$action ];
                     break;
                 default:
                     break;

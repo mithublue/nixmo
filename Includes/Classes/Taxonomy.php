@@ -71,13 +71,13 @@ class Taxonomy {
         $capabilities = $args['capability'];
         $slug_part = 'admin/taxonomies/'.$tax;
         $route_name = [
-            'browse' => 'tax.'.$tax.'.browse',
-            'read' => 'tax.'.$tax.'.read',
-            'create' => 'tax.'.$tax.'.create',
-            'edit' => 'tax.'.$tax.'.edit',
-            'store' => 'tax.'.$tax.'.store',
-            'update' => 'tax.'.$tax.'.update',
-            'delete' => 'tax.'.$tax.'.delete',
+            'browse' => 'taxonomy.'.$tax.'.browse',
+            'read' => 'taxonomy.'.$tax.'.read',
+            'create' => 'taxonomy.'.$tax.'.create',
+            'edit' => 'taxonomy.'.$tax.'.edit',
+            'store' => 'taxonomy.'.$tax.'.store',
+            'update' => 'taxonomy.'.$tax.'.update',
+            'delete' => 'taxonomy.'.$tax.'.delete',
         ];
 
         //add menu and submenu page
@@ -90,6 +90,17 @@ class Taxonomy {
 
         //register routes
         $routes = [
+            [
+                'method' => 'get',
+                'slug' => $slug_part.'/create',
+                'callback' => function(){
+                    return 'Admin\\TaxonomiesController@create';
+                },
+                'name' => $route_name['create'],
+                'is_admin' => true,
+                'middleware' => '',
+                'permission' => ['create', \App\Post::class]
+            ],
             [
                 'method' => 'post',
                 'slug' => $slug_part,
