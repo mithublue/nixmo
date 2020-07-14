@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             @include('admin.sidebar')
 
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Posts</div>
                     <div class="card-body">
@@ -14,7 +14,7 @@
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
                         @endcan
-                        <form method="GET" action="{{ \App\Includes\Classes\Router()->get_route('store', null, 'post_type', $common['post_type'] ) }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+                        <form method="GET" action="{{ \App\Includes\Classes\Router()->get_route('browse', null, 'post_type', $common['post_type'] ) }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
                                 <span class="input-group-append">
